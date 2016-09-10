@@ -4,6 +4,7 @@
 - This time, the elements represent a pointer to the parent
 - Faster unions using this construct, as we only really have to change the element of the new node
 - Here, unions will always add on the parent
+- Problems arise when the trees are massive -- one must traverse through a large tree to get to root
 
 '''
 
