@@ -12,7 +12,7 @@ def binary_search(array, left, right, key):
     right = mid_index - 1
     return binary_search(array, left, right, key)
   else:
-    # and idea here
+    # and add index here
     left = mid_index + 1
     return binary_search(array, left, right, key)
 
@@ -21,6 +21,25 @@ def binary_search(array, left, right, key):
 array = [6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97];
 print binary_search(array, 0, len(array) - 1, 43);
 
-# TODO:
+
+
 def binary_search_non_recursive(array, key):
-  pass
+  total = 0
+  if len(array) == 0:
+    return
+
+  start = 0
+  end = len(array)
+
+  while (start != end):
+    midpoint = (start + end) // 2
+    if key == array[midpoint]:
+      return midpoint
+    elif key <= array[midpoint]:
+      end = midpoint
+    else:
+      start = midpoint
+  else:
+    return "not found"
+
+print binary_search_non_recursive(array, 97);
