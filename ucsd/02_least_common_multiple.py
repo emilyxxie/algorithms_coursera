@@ -36,6 +36,7 @@ def gcd_euclidean(x, y):
 def lcm_refactored(x, y):
   return (x * y) // gcd_euclidean(x, y)
 
+
 x = int(input())
 y = int(input())
 print(lcm_refactored(x, y))
