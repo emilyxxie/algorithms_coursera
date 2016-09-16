@@ -1,23 +1,22 @@
 # python3
 # get the minimum number of refills for a given route
 
-# def min_refills(gas_stations, gas_capacity):
-#   current = 0
-#   refills = 0
-#   i = 1
-#   while current + i < len(stations) - 1:
-#     if current + i ==
-#     if gas_stations[current + i] - gas_stations[current] <= gas_capacity:
-#       # try the next station over as we want to go as far as we can without refilling
-#       i += 1
-#     else:
-#       current += (i - 1)
-#       i = 1
-#       refills += 1
-#   return refills
+def min_refills(gas_stations, gas_capacity):
+  current = 0
+  refills = 0
+  i = 1
+  while current + i < len(stations) - 1:
+    if current + i ==
+    if gas_stations[current + i] - gas_stations[current] <= gas_capacity:
+      # try the next station over as we want to go as far as we can without refilling
+      i += 1
+    else:
+      current += (i - 1)
+      i = 1
+      refills += 1
+  return refills
 
 # print(min_refills(stations, 400))
-
 
 
 
