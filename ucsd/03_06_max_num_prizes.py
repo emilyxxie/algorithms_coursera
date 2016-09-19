@@ -5,6 +5,7 @@ def max_num_prizes(n):
   for i in range(1, n):
     prizes.append(i)
     if n - sum(prizes) < i:
+      prizes[-1] += n - sum(prizes)
       return prizes, len(prizes)
   return prizes, len(prizes)
 
