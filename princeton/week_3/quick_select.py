@@ -1,23 +1,30 @@
+'''
+
+use the algorithm behind quick sort
+in order to quickly find the kth ordered element in an array
+
+'''
+
 import random
 
-# quick sort - goes through and sorts the pivots in place
-def quick_sort(n):
+def quick_select(n, key):
   low = 0
   high = len(n) - 1
   random.shuffle(n)
-  sort(n, low, high)
-  return n
+  found_key = sort_and_select(n, low, high, key)
+  return found_key
 
-def sort(n, low, high):
+def sort_and_select(n, low, high, key):
   if low >= high:
     return
   sorted_pivot = partition(n, low, high)
-  sort(n, low, sorted_pivot - 1)
-  sort(n, sorted_pivot + 1, high)
+  if key < sorted_pivot:
+    sort_and_select(n, low, sorted_pivot - 1, key)
+  elif key > sorted_pivot:
+    sort_and_select(n, sorted_pivot + 1, high, key)
+  else:
+    return sorted_pivot
 
-# set low as partition. traverse the array using two pointers, a + b
-# and swap array[a] and array[b] if they are on the wrong side of partition
-# until the two indexes cross
 def partition(n, low, high):
   partition = n[low]
   a = low + 1
@@ -38,5 +45,6 @@ def partition(n, low, high):
     n[b], n[low] = n[low], n[b]
   return b
 
-n = random.sample(range(0, 100), 100)
-print(quick_sort(n))
+n = [1, 3, 2, 0, 5, 4]
+
+print(quick_select(n, 4))
