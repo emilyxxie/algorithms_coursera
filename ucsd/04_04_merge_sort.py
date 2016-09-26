@@ -4,8 +4,8 @@ def merge_sort(nums):
   if len(nums) <= 1:
     return nums
   mid = len(nums) // 2
-  left = merge_sort(nums[0:mid])
-  right = merge_sort(nums[mid:len(nums)])
+  left = merge_sort(nums[:mid])
+  right = merge_sort(nums[mid:])
   return sort(left, right)
 
 def sort(left, right):
