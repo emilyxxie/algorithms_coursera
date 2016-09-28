@@ -2,6 +2,7 @@
 
 use the algorithm behind quick sort
 in order to quickly find the kth ordered element in an array
+TODO: return to quick sort / quick select and re-implment and do duplicates
 
 '''
 
