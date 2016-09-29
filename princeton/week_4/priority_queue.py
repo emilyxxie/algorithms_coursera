@@ -31,40 +31,47 @@ class MaxPriorityQueue(object):
 
   def insert(self, val):
     self.heap.append(val)
-    self.rise()
+    self.__rise()
 
   def remove_max(self):
     self.heap[1], self.heap[-1] = self.heap[-1], self.heap[1]
     self.heap.pop()
-    self.sink()
+    self.__sink()
 
-  def rise(self):
+  def __rise(self):
     i = len(self.heap) - 1
     while (i > 1 and self.heap[i] > self.heap[i // 2]):
       self.heap[i], self.heap[i // 2] = self.heap[i // 2], self.heap[i]
       i //= 2
 
-  def sink(self):
+  def __sink(self):
     i = 1
     c = i * 2
-    size = len(self.heap)
+    size = len(self.heap) - 1
     while c < size:
       larger_c = c
       # checks to see if second child exists and is larger
       if c + 1 < size and self.heap[c + 1] > self.heap[c]: larger_c += 1
-      self.heap[i], self.heap[larger_c] = self.heap[larger_c], self.heap[i]
+      if self.heap[i] < self.heap[larger_c]:
+        self.heap[i], self.heap[larger_c] = self.heap[larger_c], self.heap[i]
       i = c
       c *= 2
 
 
 # test
 queue = MaxPriorityQueue()
-
-queue.insert(15)
-queue.insert(12)
+queue.insert(1)
+queue.insert(29)
 queue.insert(10)
-queue.insert(5)
+queue.insert(4)
 queue.insert(3)
+queue.insert(2)
+queue.insert(31)
+queue.insert(22)
+queue.insert(29)
+queue.insert(30)
+queue.insert(60)
+queue.remove_max()
 queue.remove_max()
 
 print(queue.heap)
