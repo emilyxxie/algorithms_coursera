@@ -54,8 +54,8 @@ class MaxPriorityQueue(object):
       if c + 1 < size and self.heap[c + 1] > self.heap[c]: larger_c += 1
       if self.heap[i] < self.heap[larger_c]:
         self.heap[i], self.heap[larger_c] = self.heap[larger_c], self.heap[i]
-      i = c
-      c *= 2
+      i = larger_c
+      c = i * 2
 
 
 # test
@@ -71,6 +71,7 @@ queue.insert(22)
 queue.insert(29)
 queue.insert(30)
 queue.insert(60)
+queue.remove_max()
 queue.remove_max()
 queue.remove_max()
 
