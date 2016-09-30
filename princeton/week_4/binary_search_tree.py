@@ -28,6 +28,57 @@ class Binary_Search_Tree(object):
       else:
         node.right = Node(val)
 
+  def delete(self, val):
+    node = self.root
+    self.__delete(val, node)
+
+  def __delete(self, val, node):
+    if val < node.val:
+      if node.left:
+        self.__delete(val, node.left)
+      return
+    elif val > node.val:
+      if node.right:
+        self.__delete(val, node.right)
+      return
+    else:
+        self.__handle_successors(node)
+
+  def __handle_successors(self, node):
+      children = self.count_children(node)
+      if children == 0:
+        node = None
+      elif children == 1:
+        if node.left:
+          node = node.left
+        else:
+          node = node.right
+      elif children == 2:
+        pass
+        # TODO: complete deletion if there's two children
+
+  def count_children(self, node):
+    total = 0
+    if node.left:
+      total += 1
+    if node.right:
+      total += 1
+    return total
+
+
+  def print_nodes(self):
+    node = self.root
+    self.__print_nodes(node)
+
+  def __print_nodes(self, node):
+    print(node.val)
+    if node.left:
+      print("%d Left: " % (node.val)),
+      self.__print_nodes(node.left)
+    if node.right:
+      print("%d Right: " % (node.val)),
+      self.__print_nodes(node.right)
+
   def find_max(self):
     node = self.root
     while node.right != None:
@@ -48,34 +99,6 @@ class Binary_Search_Tree(object):
 
   def get_value(self):
     pass
-
-  def delete(self, val):
-    node = self.root
-    while node.val:
-      if val < node.val:
-        node = node.left
-      elif val > node:
-        node = node.right
-      elif node.val == val:
-        if node.left:
-          node.val = node.left
-        elif node.right:
-          node.val = node.right
-        # else:
-          # node.val =
-
-  def print_nodes(self):
-    node = self.root
-    self.__print_nodes(node)
-
-  def __print_nodes(self, node):
-    print(node.val)
-    if node.left:
-      print("%d Left: " % (node.val)),
-      self.__print_nodes(node.left)
-    if node.right:
-      print("%d Right: " % (node.val)),
-      self.__print_nodes(node.right)
 
 
 class Node(object):
