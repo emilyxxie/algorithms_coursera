@@ -8,6 +8,7 @@ class Binary_Search_Tree(object):
 
   def __init__(self, val = None):
     self.root = Node(val)
+    self.height = 1 if self.root else 0
 
   def insert(self, val):
     if self.root.val == None:
@@ -27,30 +28,41 @@ class Binary_Search_Tree(object):
       else:
         node.right = Node(val)
 
-  '''
-  non-recursive insertion:
-  '''
-  # def __insert(self, val):
-  #   current_node = self.root
-  #   while current_node:
-  #     if val < current_node.val:
-  #       if current_node.left:
-  #         current_node = current_node.left
-  #       else:
-  #         current_node.left = Node(val)
-  #         return
-  #     else:
-  #       if current_node.right:
-  #         current_node = current_node.right
-  #       else:
-  #         current_node.right = Node(val)
-  #         return
+  def find_max(self):
+    node = self.root
+    while node.right != None:
+      node = node.right
+    return node.val
+
+  def find_min(self):
+    node = self.root
+    while node.left != None:
+      node = node.left
+    return node.val
+
+  def find_floor():
+    pass
+
+  def find_ceiling():
+    pass
 
   def get_value(self):
     pass
 
-  def delete(self):
-    pass
+  def delete(self, val):
+    node = self.root
+    while node.val:
+      if val < node.val:
+        node = node.left
+      elif val > node:
+        node = node.right
+      elif node.val == val:
+        if node.left:
+          node.val = node.left
+        elif node.right:
+          node.val = node.right
+        # else:
+          # node.val =
 
   def print_nodes(self):
     node = self.root
@@ -80,12 +92,9 @@ bst.insert(6)
 bst.insert(7)
 bst.insert(2)
 bst.insert(4)
+bst.delete(2)
 bst.print_nodes()
-
-
-
-
-
-
+print(bst.find_min())
+print(bst.find_max())
 
 
