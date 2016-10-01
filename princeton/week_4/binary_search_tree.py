@@ -4,6 +4,8 @@ Using a binary search tree to implement a symbol table
 
 '''
 
+import sys
+
 class Binary_Search_Tree(object):
 
   def __init__(self, val = None):
@@ -30,42 +32,49 @@ class Binary_Search_Tree(object):
         node.right = Node(val)
         node.right.parent = node
 
-  def delete(self, val):
-    node = self.root
-    self.__delete(val, node)
-
-  def __delete(self, val, node):
+  def delete(self, val, node):
     if val < node.val:
       if node.left:
-        self.__delete(val, node.left)
+        self.delete(val, node.left)
       else:
-        node = node.left
+        return
     elif val > node.val:
       if node.right:
-        self.__delete(val, node.right)
+        self.delete(val, node.right)
       else:
-        node = node.right
+        return
     else:
-        self.__handle_successors(node)
+      self.__delete_and_handle_successors(node)
 
-  def __handle_successors(self, node):
-    if node.left or node.right:
+  def __delete_and_handle_successors(self, node):
+    if node.left and node.right:
+      # not worrying about balancing
+      # so, just find max of left node and use that
+      # as the replacement
+      successor = self.find_max(node.left)
+      successor.parent.right = None
+      successor.parent = node.parent
+      successor.left = node.left
+      successor.right = node.right
+      if node == self.root:
+        self.root = successor
+      node = successor
+    elif node.left or node.right:
       if node.left:
+        node.parent.left = node.left
         node.left.parent = node.parent
         node = node.left
       else:
+        node.parent.right = node.right
         node.right.parent = node.parent
         node = node.right
-    elif node.left and node.right:
-      left_c  = node.left
-      right_c = node.right
-      successor = self.find_max(node.left)
-      node.left.parent = successor.parent
-      node = successor
-      node.left = left_c
-      node.right = right_c
     else:
+      if node.parent.left == node:
+        node.parent.left = None
+      elif node.parent.right == node:
+        node.parent.right = None
       node = None
+
 
   def print_nodes(self, node):
     if node == None:
@@ -79,28 +88,17 @@ class Binary_Search_Tree(object):
       self.print_nodes(node.right)
 
   def find_max(self, node):
-    while node.right != None:
+    while node.right:
       node = node.right
     return node
 
   def find_min(self, node):
-    while node.left != None:
+    while node.left:
       node = node.left
     return node
 
-  # def find_floor(self, val):
-  #   node = self.head
-  #   while node != None:
-  #     if val < node.left.val:
-  #       node = node.left
-  #     elif val > node.right.val:
-  #       node = node.right
-  #     elif: val > node:
-
   def get_value(self):
     pass
-
-  def get
 
 class Node(object):
 
@@ -113,11 +111,13 @@ class Node(object):
 bst = Binary_Search_Tree()
 
 bst.insert(6)
-bst.insert(5)
+bst.insert(8)
 bst.insert(7)
+bst.insert(3)
 bst.insert(2)
 bst.insert(4)
-# bst.delete(2)
+bst.insert(5)
+bst.delete(6, bst.root)
 bst.print_nodes(bst.root)
 # bst.find_floor()
 # print(bst.find_min())
