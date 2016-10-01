@@ -6,11 +6,10 @@ Using a binary search tree to implement a symbol table
 
 import sys
 
-class Binary_Search_Tree(object):
+class BinarySearchTree(object):
 
   def __init__(self, val = None):
     self.root = Node(val)
-    self.height = 1 if self.root else 0
 
   def insert(self, val):
     if self.root.val == None:
@@ -49,32 +48,28 @@ class Binary_Search_Tree(object):
   def __delete_and_handle_successors(self, node):
     if node.left and node.right:
       # not worrying about balancing
-      # so, just find max of left node and use that
-      # as the replacement
-      successor = self.find_max(node.left)
-      successor.parent.right = None
-      successor.parent = node.parent
-      successor.left = node.left
-      successor.right = node.right
-      if node == self.root:
-        self.root = successor
-      node = successor
+      # so, just find max of left node and replace it
+      val = self.find_max(node.left).val
+      node.val = val
     elif node.left or node.right:
       if node.left:
         node.parent.left = node.left
         node.left.parent = node.parent
         node = node.left
+        if node == self.root:
+          self.root = node
       else:
         node.parent.right = node.right
         node.right.parent = node.parent
         node = node.right
+        if node == self.root:
+          self.root = node
     else:
       if node.parent.left == node:
         node.parent.left = None
       elif node.parent.right == node:
         node.parent.right = None
       node = None
-
 
   def print_nodes(self, node):
     if node == None:
@@ -108,7 +103,7 @@ class Node(object):
     self.right = None
     self.parent = None
 
-bst = Binary_Search_Tree()
+bst = BinarySearchTree()
 
 bst.insert(6)
 bst.insert(8)
