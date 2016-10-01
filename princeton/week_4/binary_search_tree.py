@@ -22,11 +22,13 @@ class Binary_Search_Tree(object):
         self.__insert(val, node.left)
       else:
         node.left = Node(val)
+        node.left.parent = node
     else:
       if node.right:
         self.__insert(val, node.right)
       else:
         node.right = Node(val)
+        node.right.parent = node
 
   def delete(self, val):
     node = self.root
@@ -36,70 +38,69 @@ class Binary_Search_Tree(object):
     if val < node.val:
       if node.left:
         self.__delete(val, node.left)
-      return
+      else:
+        node = node.left
     elif val > node.val:
       if node.right:
         self.__delete(val, node.right)
-      return
+      else:
+        node = node.right
     else:
         self.__handle_successors(node)
 
   def __handle_successors(self, node):
-      children = self.count_children(node)
-      if children == 0:
-        node = None
-      elif children == 1:
-        if node.left:
-          node = node.left
-        else:
-          node = node.right
-      elif children == 2:
-        pass
-        # TODO: complete deletion if there's two children
+    if node.left or node.right:
+      if node.left:
+        node.left.parent = node.parent
+        node = node.left
+      else:
+        node.right.parent = node.parent
+        node = node.right
+    elif node.left and node.right:
+      left_c  = node.left
+      right_c = node.right
+      successor = self.find_max(node.left)
+      node.left.parent = successor.parent
+      node = successor
+      node.left = left_c
+      node.right = right_c
+    else:
+      node = None
 
-  def count_children(self, node):
-    total = 0
-    if node.left:
-      total += 1
-    if node.right:
-      total += 1
-    return total
-
-
-  def print_nodes(self):
-    node = self.root
-    self.__print_nodes(node)
-
-  def __print_nodes(self, node):
+  def print_nodes(self, node):
+    if node == None:
+      return
     print(node.val)
     if node.left:
       print("%d Left: " % (node.val)),
-      self.__print_nodes(node.left)
+      self.print_nodes(node.left)
     if node.right:
       print("%d Right: " % (node.val)),
-      self.__print_nodes(node.right)
+      self.print_nodes(node.right)
 
-  def find_max(self):
-    node = self.root
+  def find_max(self, node):
     while node.right != None:
       node = node.right
-    return node.val
+    return node
 
-  def find_min(self):
-    node = self.root
+  def find_min(self, node):
     while node.left != None:
       node = node.left
-    return node.val
+    return node
 
-  def find_floor():
-    pass
-
-  def find_ceiling():
-    pass
+  # def find_floor(self, val):
+  #   node = self.head
+  #   while node != None:
+  #     if val < node.left.val:
+  #       node = node.left
+  #     elif val > node.right.val:
+  #       node = node.right
+  #     elif: val > node:
 
   def get_value(self):
     pass
 
+  def get
 
 class Node(object):
 
@@ -107,17 +108,19 @@ class Node(object):
     self.val = val
     self.left = None
     self.right = None
-
+    self.parent = None
 
 bst = Binary_Search_Tree()
-bst.insert(5)
+
 bst.insert(6)
+bst.insert(5)
 bst.insert(7)
 bst.insert(2)
 bst.insert(4)
-bst.delete(2)
-bst.print_nodes()
-print(bst.find_min())
-print(bst.find_max())
+# bst.delete(2)
+bst.print_nodes(bst.root)
+# bst.find_floor()
+# print(bst.find_min())
+# print(bst.find_max())
 
 
