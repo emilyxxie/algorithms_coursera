@@ -1,13 +1,22 @@
 '''
 
-Using a binary search tree to implement a symbol table
-BFS tends to take log N time. However, worst case scenario takes linear time.
+Red black tree is a subset of binary tree
+Rules:
+
+1) Node is either red or black
+2) Root is always black
+3) All leaves are black, never have values, always contain None
+4) If node is red, both of its children are black
+5) Every path from a node to any of its descendant NIL nodes contains the same number of black nodes
+
+^^ if you maintain these properties, you will be balanced
+
 
 '''
 
 import sys
 
-class BinarySearchTree(object):
+class RedBlackTree(object):
 
   def __init__(self, val = None):
     self.root = Node(val)
@@ -17,6 +26,18 @@ class BinarySearchTree(object):
       self.root.val = val
     else:
       self.__insert(val, self.root)
+
+
+  def search(self, val):
+  node = self.head
+  while node:
+    if val < node.val:
+      node = node.left
+    elif val > node.val:
+      node = node.right
+    else:
+      return node
+
 
   def __insert(self, val, node):
     if val < node.val:
@@ -31,6 +52,28 @@ class BinarySearchTree(object):
       else:
         node.right = Node(val)
         node.right.parent = node
+
+
+
+
+    # insert according to BST rules
+    # all nodes inserted must be red, except root
+    # am I the right child?
+        # if I'm the only child or is my sibling black, rotate left through parent
+        # if I have a red sibling, turn yourself and your sibling into black
+          # Then, your parent needs to turn red.
+    # two left red children in a row:
+      # rotate self right
+
+
+
+
+    # continually apply the rules until you're in a valid state
+
+
+
+
+
 
   def delete(self, val, node):
     if val < node.val:
@@ -72,16 +115,6 @@ class BinarySearchTree(object):
         node.parent.right = None
       node = None
 
-  def search(self, val):
-    node = self.head
-    while node:
-      if val < node.val:
-        node = node.left
-      elif val > node.val:
-        node = node.right
-      else:
-        return node
-
   def print_nodes(self, node):
     if node == None:
       return
@@ -106,26 +139,6 @@ class BinarySearchTree(object):
   def get_value(self):
     pass
 
-  # BFS lends itself to a while loop
-  def bfs(self):
-    queue = [self.root]
-    while queue:
-      node = queue.pop(0)
-      print(node.val)
-      if node.left:
-        queue.append(node.left)
-      if node.right:
-        queue.append(node.right)
-
-  # whereas recursion is particularly appliable to DFS
-  def dfs(self, node):
-    print(node.val)
-    if node.left:
-      self.dfs(node.left)
-    if node.right:
-      self.dfs(node.right)
-
-
 class Node(object):
 
   def __init__(self, val):
@@ -133,6 +146,8 @@ class Node(object):
     self.left = None
     self.right = None
     self.parent = None
+    self.color = None
+    # RBT root is always black
 
 bst = BinarySearchTree()
 
@@ -143,5 +158,10 @@ bst.insert(3)
 bst.insert(2)
 bst.insert(4)
 bst.insert(5)
-bst.dfs(bst.root)
+bst.delete(6, bst.root)
+bst.print_nodes(bst.root)
+# bst.find_floor()
+# print(bst.find_min())
+# print(bst.find_max())
+
 
