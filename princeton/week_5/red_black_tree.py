@@ -10,53 +10,87 @@ it keeps itself relatively balanced. (Hibbard Deletion in BSTs over time result 
 fairly unbalanced tree, resulting in average case O(sqrtN) for operations.
 
 
+Rules:
+1) If a right child has a red link, and a left child has a black link: rotate left
+2) If left child, or left-left grandchild red: rotate right
+3) Both children red: flip colors
+
 '''
 
 class RedBlackTree(object):
-
   RED = True
   BLACK = False
 
-  def __init__(self, val = None):
-    self.root = Node(val)
+  class Node(object):
 
-    # process:
-    # insert according to BST rules
-    # all nodes inserted must be red, except root
-    # am I the right child?
-        # if I'm the only child or is my sibling black, rotate left through parent
-        # if I have a red sibling, turn yourself and your sibling into black
-          # Then, your parent needs to turn red.
-    # two left red children in a row:
-      # rotate self right
-    # continually apply the rules until you're in a valid state
+    def __init__(self, key, val):
+      self.key = key
+      self.val = val
+      self.left = None
+      self.right = None
+      self.color = RedBlackTree.RED
 
+  def __init__(self, key, val):
+    self.root = self.Node(key, val)
+    self.root.color = self.BLACK
+
+  def insert(self, key, val, node = 'root'):
+    # for friendly interface
+    if node == 'root':
+      node = self.root
+
+    if node == None: return self.Node(key, val)
+    if key < node.key: node.left = self.insert(key, val, node.left)
+    if key > node.key: node.right = self.insert(key, val, node.right)
+
+    if self.__is_red(node.right) and not self.__is_red(node.left):
+      node = self.__rotate_left(node)
+    if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
+      node = rotate_right(node)
+    if self.__is_red(node.left) and self.__is_red(node.right):
+      self.flip_colors(node)
+    return node
 
   def __is_red(self, node):
-    return node.color
+    # to do, need to check what would happen if I return nothing instead of color
+    if node:
+      return node.color
 
-
-
-  def rotate_left(self, node):
+  def get(self, node):
     pass
 
-
-  def rotate_right(self, node):
+  def find(self, node):
     pass
 
-  def flip_colors(self, node):
+  def __rotate_left(self, node):
     pass
 
+  def __rotate_right(self, node):
+    pass
 
-class Node(object):
+  def flip_color(self, node):
+    pass
 
-  def __init__(self, val):
-    self.key = key
-    self.val = val
-    self.left = None
-    self.right = None
-    self.color = BLACK
+  def display(self, node):
+    if node == None:
+      return
+    print(node.val)
+    if node.left:
+      print("%d Left: " % (node.key)),
+      self.display(node.left)
+    if node.right:
+      print("%d Right: " % (node.key)),
+      self.display(node.right)
 
 
+rbt = RedBlackTree(3, "three")
+rbt.insert(1, "one")
+rbt.insert(4, "four")
+rbt.insert(5, "five")
+rbt.insert(2, "two")
+rbt.root.right.right.val
+rbt.root.right.val
+
+rbt.display(rbt.root)
 
 
