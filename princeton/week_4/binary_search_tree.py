@@ -2,6 +2,8 @@
 
 Using a binary search tree to implement a symbol table
 BFS tends to take log N time. However, worst case scenario takes linear time.
+TODO: This is a pretty ugly BFS. I should redo this soon.
+
 
 '''
 
@@ -102,9 +104,6 @@ class BinarySearchTree(object):
     while node.left:
       node = node.left
     return node
-
-  def get_value(self):
-    pass
 
   # BFS lends itself to a while loop
   def bfs(self):

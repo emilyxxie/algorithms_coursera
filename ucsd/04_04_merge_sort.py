@@ -1,4 +1,5 @@
 import random
+from copy import copy
 
 def merge_sort(nums):
   if len(nums) <= 1:
@@ -22,4 +23,8 @@ number_list = random.sample(
   range(0, 1000),
   1000
 )
-print(merge_sort(number_list))
+# print(merge_sort(number_list))
+number_list = merge_sort(number_list)
+listb = copy(number_list)
+listb.sort()
+assert merge_sort(number_list) == listb
