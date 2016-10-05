@@ -16,6 +16,8 @@ Rules:
 
 '''
 
+from IPython import embed
+
 class RedBlackTree(object):
 
   RED = True
@@ -45,6 +47,7 @@ class RedBlackTree(object):
   def insert(self, key, val):
     if not self.root.val:
       self.root = self.Node(key, val)
+      self.root.color = self.BLACK
       return self.root
     else:
       return self.__insert(key, val, self.root)
@@ -52,7 +55,8 @@ class RedBlackTree(object):
   def display(self, node):
     if node == None:
       return
-    print(node.key, node.color)
+    color = 'red' if node.color else 'black'
+    print(node.key, color)
     if node.left:
       print("%d Left: " % (node.key)),
       self.display(node.left)
@@ -66,38 +70,38 @@ class RedBlackTree(object):
   def find(self, node):
     pass
 
+  def delete(self, node):
+    pass
+
   #---------------------------------
   # private helpers
   #---------------------------------
 
   def __insert(self, key, val, node = None):
     if node == None: return self.Node(key, val)
+
     if key < node.key:
       node.left  = self.__insert(key, val, node.left)
     elif key > node.key:
       node.right = self.__insert(key, val, node.right)
-    else:
-      # same key, different value. So, overwrite
+    else: # same key, different value. So, overwrite
       node.val = val
-    if key == 6:
-      print(node.val)
-    # return self.__balance(node)
-    return node
+    return self.__balance(node)
 
   def __balance(self, node):
-    # if self.__is_red(node.right) and not self.__is_red(node.left):
-    #   node = self.__rotate_left(node)
-    # if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
-    #   node = rotate_right(node)
-    # if self.__is_red(node.left) and self.__is_red(node.right):
-    #   # self.__flip_color(node)
-    #   pass
+    # return node
+    if self.__is_red(node.right) and not self.__is_red(node.left):
+      # node = self.__rotate_left(node)
+      pass
+    if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
+      pass
+      # node = rotate_right(node)
+    if self.__is_red(node.left) and self.__is_red(node.right):
+      self.__flip_color(node)
     return node
 
   def __is_red(self, node):
-    # to do, need to check what would happen if I return nothing instead of color
-    if node:
-      return node.color
+    if node: return node.color
 
   def __rotate_left(self, node):
     pass
@@ -106,18 +110,18 @@ class RedBlackTree(object):
     pass
 
   def __flip_color(self, node):
-    self.color = BLACK
-    self.left.color = RED
-    self.right.color = RED
+    node.color = not node.color
+    node.left.color = not node.left.color
+    node.right.color = not node.right.color
 
 
 rbt = RedBlackTree()
 rbt.insert(3, "three")
 rbt.insert(1, "one")
-rbt.insert(4, "four")
 rbt.insert(5, "five")
-rbt.insert(2, "two")
-rbt.insert(6, "six")
+# rbt.insert(4, "four")
+# rbt.insert(2, "two")
+# rbt.insert(6, "six")
 # rbt.root.right.right.val
 # rbt.root.right.val
 
