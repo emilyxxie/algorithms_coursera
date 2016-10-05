@@ -43,12 +43,18 @@ class RedBlackTree(object):
     if key < node.key: node.left = self.insert(key, val, node.left)
     if key > node.key: node.right = self.insert(key, val, node.right)
 
+    node = self.__rearrange(node)
+
+    return node
+
+  def __rearrange(self, node):
     if self.__is_red(node.right) and not self.__is_red(node.left):
       node = self.__rotate_left(node)
     if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
       node = rotate_right(node)
     if self.__is_red(node.left) and self.__is_red(node.right):
-      self.flip_colors(node)
+      # self.__flip_color(node)
+      pass
     return node
 
   def __is_red(self, node):
@@ -68,7 +74,7 @@ class RedBlackTree(object):
   def __rotate_right(self, node):
     pass
 
-  def flip_color(self, node):
+  def __flip_color(self, node):
     pass
 
   def display(self, node):
