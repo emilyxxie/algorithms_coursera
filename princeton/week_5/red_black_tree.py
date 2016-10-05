@@ -16,7 +16,7 @@ Rules:
 
 '''
 
-from IPython import embed
+# from IPython import embed
 
 class RedBlackTree(object):
 
@@ -50,7 +50,9 @@ class RedBlackTree(object):
       self.root.color = self.BLACK
       return self.root
     else:
-      return self.__insert(key, val, self.root)
+      # the insertion process always bubbles back to the top node
+      # so we can simply set the last value returned equal to root
+      self.root = self.__insert(key, val, self.root)
 
   def display(self, node):
     if node == None:
@@ -90,9 +92,8 @@ class RedBlackTree(object):
 
   def __balance(self, node):
     # return node
-    if self.__is_red(node.right) and not self.__is_red(node.left):
-      # node = self.__rotate_left(node)
-      pass
+    if not self.__is_red(node.left) and self.__is_red(node.right):
+      node = self.__rotate_left(node)
     if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
       pass
       # node = rotate_right(node)
@@ -104,20 +105,27 @@ class RedBlackTree(object):
     if node: return node.color
 
   def __rotate_left(self, node):
-    pass
+    rotated = node.right
+    node.right = rotated.left
+    rotated.left = node
+    rotated.color = node.color
+    rotated.left.color = self.RED
+    return rotated
 
   def __rotate_right(self, node):
     pass
 
   def __flip_color(self, node):
     node.color = not node.color
-    node.left.color = not node.left.color
-    node.right.color = not node.right.color
+    if node.left:
+      node.left.color = not node.left.color
+    if node.right:
+      node.right.color = not node.right.color
 
 
 rbt = RedBlackTree()
 rbt.insert(3, "three")
-rbt.insert(1, "one")
+# rbt.insert(1, "one")
 rbt.insert(5, "five")
 # rbt.insert(4, "four")
 # rbt.insert(2, "two")
