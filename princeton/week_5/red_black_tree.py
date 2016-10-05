@@ -50,7 +50,7 @@ class RedBlackTree(object):
       self.root.color = self.BLACK
       return self.root
     else:
-      # the insertion process always bubbles back to the top node
+      # the insertion returns always bubble back to the top node
       # so we can simply set the last value returned equal to root
       self.root = self.__insert(key, val, self.root)
 
@@ -94,9 +94,8 @@ class RedBlackTree(object):
     # return node
     if not self.__is_red(node.left) and self.__is_red(node.right):
       node = self.__rotate_left(node)
-    if self.__is_red(node.left) and node.right and self.__is_red(node.right.right):
-      pass
-      # node = rotate_right(node)
+    if self.__is_red(node.left) and node.left and self.__is_red(node.left.left):
+      node = self.__rotate_right(node)
     if self.__is_red(node.left) and self.__is_red(node.right):
       self.__flip_color(node)
     return node
@@ -113,7 +112,12 @@ class RedBlackTree(object):
     return rotated
 
   def __rotate_right(self, node):
-    pass
+    rotated = node.left
+    node.left = rotated.left
+    rotated.right = node
+    rotated.color = node.color
+    rotated.right.color = self.RED
+    return rotated
 
   def __flip_color(self, node):
     node.color = not node.color
@@ -125,18 +129,16 @@ class RedBlackTree(object):
 
 rbt = RedBlackTree()
 rbt.insert(3, "three")
-# rbt.insert(1, "one")
-rbt.insert(5, "five")
-rbt.insert(6, "six")
-rbt.insert(7, "seven")
-rbt.insert(7, "seven")
-rbt.insert(8, "eight")
+rbt.insert(2, "two")
+rbt.insert(1, "one")
+# rbt.insert(5, "five")
+# rbt.insert(6, "six")
+# rbt.insert(7, "seven")
+# rbt.insert(7, "seven")
+# rbt.insert(8, "eight")
 # rbt.insert(4, "four")
 # rbt.insert(2, "two")
 # rbt.insert(6, "six")
-# rbt.root.right.right.val
-# rbt.root.right.val
-
 rbt.display(rbt.root)
 
 
