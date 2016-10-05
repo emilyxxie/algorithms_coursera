@@ -50,7 +50,7 @@ class RedBlackTree(object):
       self.root.color = self.BLACK
       return self.root
     else:
-      # the insertion returns always bubble back to the top node
+      # the insertion return always bubbles back to the top node
       # so we can simply set the last value returned equal to root
       self.root = self.__insert(key, val, self.root)
 
@@ -66,11 +66,15 @@ class RedBlackTree(object):
       print("%d Right: " % (node.key)),
       self.display(node.right)
 
-  def get(self, node):
-    pass
-
-  def find(self, node):
-    pass
+  def select(self, key, node):
+    if node == None:
+      return "Node of key %d not in tree." % (key)
+    if key < node.key:
+      return self.select(key, node.left)
+    elif key > node.key:
+      return self.select(key, node.right)
+    else # key == node.key:
+      return node.val
 
   def delete(self, node):
     pass
@@ -136,5 +140,4 @@ rbt.insert(6, "six")
 rbt.insert(7, "seven")
 rbt.insert(8, "eight")
 rbt.display(rbt.root)
-
 
