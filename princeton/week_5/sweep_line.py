@@ -17,8 +17,18 @@ Any point that is within that range will intersect.
 
 Using a binary search tree to implement a symbol table
 BFS tends to take log N time. However, worst case scenario takes linear time.
-TODO: This is a pretty ugly BFS. I should redo this soon.
 
+
+
+1) implement size
+2) no parents
+3) Ceiling
+4) floor
+5) rank
+6) height
+
+
+TODO: This is a pretty ugly BFS. I should redo this soon.
 TODO: maybe implement this visually in p5.js (!!! so fun)
 
 '''
@@ -47,23 +57,44 @@ class BinarySearchTree(object):
   def insert(self, key, val):
     if not self.root.key:
       self.root = self.Node(key, val)
+      return self.root
     else:
-      self.__insert(key, val, self.root)
+      self.root = self.__insert(key, val, self.root)
 
-  def delete(self, node):
-    # if val < node.val:
-    #   if node.left:
-    #     self.delete(val, node.left)
-    #   else:
-    #     return
-    # elif val > node.val:
-    #   if node.right:
-    #     self.delete(val, node.right)
-    #   else:
-    #     return
-    # else:
-    #   self.__hibbard_delete(node)
-    pass
+  def delete(self, key):
+    node = self.root
+    # hibbard deletion recursion returns the deleted node itself
+    # maybe do a check --- if it returns None, then don't set it to root.
+    # if it returns a node via hibbard, then set it to root
+    self.root = self.__hibbard_delete(key, self.root)
+
+  def __hibbard_delete(self, key, node):
+    # if it hits this case, it means the node was never found
+    # this never actually gets returned up the hibbard delete
+    if node == None:
+      return None
+    if key < node.key:
+      self.left = self.__hibbard_delete(key, node.left)
+    elif key > node.key:
+      self.right = self.__hibbard_delete(key, node.right)
+    else: # key == node.key
+      if node.left == None: return node.right
+      if node.right == None: return node.left
+      # by now, if the node has passed the above checks
+      # it will have both a left and right child.
+      # so, perform the hibbard delete, which is to replace the node
+      # with the minumum of the right child -> the next largest
+      next_largest = self.delete_min(node)
+      node.val = next_largest.val
+      node.key = next_largest.key
+      return node
+
+  def delete_min(self, node):
+    while node.left:
+      parent = node
+      node = node.left
+    parent.left = None
+    return node
 
   def search(self, val):
     node = self.head
@@ -77,7 +108,7 @@ class BinarySearchTree(object):
 
   def display(self, node):
     if node == None:
-      node = self.root
+      return
     print(node.key)
     if node.left:
       print("%d Left: " % (node.key)),
@@ -117,51 +148,25 @@ class BinarySearchTree(object):
   # private helpers
   #---------------------------------
 
-  def __insert(self, val, node):
-    if val < node.val:
-        self.__insert(val, node.left)
-      else:
-        node.left = Node(val)
-        node.left.parent = node
-    else:
-      if node.right:
-        self.__insert(val, node.right)
-      else:
-        node.right = Node(val)
-        node.right.parent = node
-
-  def __hibbard_delete(self, node):
-    if node.left and node.right:
-      val = self.find_max(node.left).val
+  def __insert(self, key, val, node):
+    if node == None: return self.Node(key, val)
+    if key < node.key:
+      node.left = self.__insert(key, val, node.left)
+    elif key > node.key:
+      node.right = self.__insert(key, val, node.right)
+    else: # key == node.key
       node.val = val
-    elif node.left or node.right:
-      if node.left:
-        node.parent.left = node.left
-        node.left.parent = node.parent
-        node = node.left
-        if node == self.root:
-          self.root = node
-      else:
-        node.parent.right = node.right
-        node.right.parent = node.parent
-        node = node.right
-        if node == self.root:
-          self.root = node
-    else:
-      if node.parent.left == node:
-        node.parent.left = None
-      elif node.parent.right == node:
-        node.parent.right = None
-      node = None
+    return node
 
 bst = BinarySearchTree()
 
-bst.insert(6)
-bst.insert(8)
-bst.insert(7)
-bst.insert(3)
-bst.insert(2)
-bst.insert(4)
-bst.insert(5)
-bst.display()
+bst.insert(6, "six")
+bst.insert(8, "eight")
+bst.insert(7, "seven")
+bst.insert(3, "three")
+bst.insert(2, "two")
+bst.insert(4, "four")
+bst.insert(5, "five")
+bst.display(bst.root)
+print(bst.delete(150))
 
