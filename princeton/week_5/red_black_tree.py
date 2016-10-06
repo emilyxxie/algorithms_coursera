@@ -95,7 +95,6 @@ class RedBlackTree(object):
     return self.__balance(node)
 
   def __balance(self, node):
-    # return node
     if not self.__is_red(node.left) and self.__is_red(node.right):
       node = self.__rotate_left(node)
     if self.__is_red(node.left) and node.left and self.__is_red(node.left.left):
