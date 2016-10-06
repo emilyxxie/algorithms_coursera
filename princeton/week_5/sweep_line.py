@@ -85,15 +85,15 @@ class BinarySearchTree(object):
       if node.right == None: return node.left
       # by now, if the node has passed the above checks
       # it will have both a left and right child.
-      # so, perform the hibbard delete, which is to replace the node
-      # with the minumum of the right child -> the next largest
-      next_largest = self.__delete_min(node.right)
+      # if so, replace the node with the minumum
+      # of the right child -> the next largest
+      next_largest = self.__hibbard_delete_min(node.right)
       left = node.left
       node = next_largest
       node.left = left
     return node
 
-  def __delete_min(self, node):
+  def __hibbard_delete_min(self, node):
     while node.left:
       parent = node
       node = node.left
@@ -167,11 +167,17 @@ bst = BinarySearchTree()
 
 bst.insert(5, "five")
 bst.insert(8, "eight")
-bst.insert(9, "nine")
+# bst.insert(9, "nine")
 bst.insert(6, "six")
-bst.insert(7, "seven")
+bst.insert(11, "eleven")
+bst.insert(9, "nine")
 bst.insert(10, "ten")
+bst.insert(13, "thirteen")
+bst.insert(12, "twelve")
 bst.delete(8)
+# bst.insert(7, "seven")
+# bst.insert(10, "ten")
+# bst.delete(8)
 # bst.delete(8)
 # bst.insert(3, "three")
 # bst.insert(2, "two")
