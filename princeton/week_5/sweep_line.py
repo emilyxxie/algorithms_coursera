@@ -54,6 +54,10 @@ class BinarySearchTree(object):
   # public api
   #---------------------------------
 
+  #TODO:
+  # 1) fix hibbard delete
+  # 2) test the root deletion case. should be OK, but just in case
+
   def insert(self, key, val):
     if not self.root.key:
       self.root = self.Node(key, val)
@@ -67,39 +71,6 @@ class BinarySearchTree(object):
     # maybe do a check --- if it returns None, then don't set it to root.
     # if it returns a node via hibbard, then set it to root
     self.root = self.__hibbard_delete(key, self.root)
-
-  def __hibbard_delete(self, key, node):
-    # if the delete reaches a node with a value of None, it means the node was never found
-    # we return None nevertheless since we are recursing
-    # and want to keep this child as is for the parent who will receive this on return
-    if node == None:
-      return None
-    if key < node.key:
-      node.left = self.__hibbard_delete(key, node.left)
-    elif key > node.key:
-      node.right = self.__hibbard_delete(key, node.right)
-    else: # key == node.key
-      if not node.left and not node.right:
-        return None
-      if node.left == None: return node.right
-      if node.right == None: return node.left
-      # by now, if the node has passed the above checks
-      # it will have both a left and right child.
-      # if so, replace the node with the minumum
-      # of the right child -> the next largest
-      next_largest = self.__hibbard_delete_min(node.right)
-      left = node.left
-      node = next_largest
-      node.left = left
-    return node
-
-  def __hibbard_delete_min(self, node):
-    while node.left:
-      parent = node
-      node = node.left
-    if 'parent' in locals():
-      parent.left = node.right
-    return node
 
   def search(self, val):
     node = self.head
@@ -163,11 +134,51 @@ class BinarySearchTree(object):
       node.val = val
     return node
 
+  def __hibbard_delete(self, key, node):
+    # if the delete reaches a node with a value of None, it means the node was never found
+    # we return None nevertheless since we are recursing
+    # and want to keep this child as is for the parent who will receive this on return
+    if node == None:
+      return None
+    if key < node.key:
+      node.left = self.__hibbard_delete(key, node.left)
+    elif key > node.key:
+      node.right = self.__hibbard_delete(key, node.right)
+    else: # key == node.key
+      if not node.left and not node.right:
+        return None
+      if node.left == None: return node.right
+      if node.right == None: return node.left
+      # by now, if the node has passed the above checks
+      # it will have both a left and right child.
+      # if so, replace the node with the minumum
+      # of the right child -> the next largest
+      next_largest = self.__hibbard_delete_min(node.right)
+      left = node.left
+      # to avoid linking up right node to itself
+      # TODO: make more elegant
+      right = None if next_largest == node.right else node.right
+      node = next_largest
+      node.left = left
+      node.right = right
+    return node
+
+  def __hibbard_delete_min(self, node):
+    while node.left:
+      parent = node
+      node = node.left
+    if 'parent' in locals():
+      parent.left = node.right
+    return node
+
 bst = BinarySearchTree()
 
-bst.insert(5, "five")
-bst.insert(8, "eight")
-# bst.insert(9, "nine")
+# bst.insert(5, "five")
+# bst.insert(8, "eight")
+# bst.insert(4, "four")
+# bst.delete(5)
+# bst.display(bst.root)
+bst.insert(9, "nine")
 bst.insert(6, "six")
 bst.insert(11, "eleven")
 bst.insert(9, "nine")
@@ -175,14 +186,14 @@ bst.insert(10, "ten")
 bst.insert(13, "thirteen")
 bst.insert(12, "twelve")
 bst.delete(8)
-# bst.insert(7, "seven")
-# bst.insert(10, "ten")
-# bst.delete(8)
-# bst.delete(8)
-# bst.insert(3, "three")
-# bst.insert(2, "two")
-# bst.insert(4, "four")
-# bst.insert(5, "five")
+bst.insert(7, "seven")
+bst.insert(10, "ten")
+bst.delete(8)
+bst.delete(8)
+bst.insert(3, "three")
+bst.insert(2, "two")
+bst.insert(4, "four")
+bst.insert(5, "five")
 
 bst.display(bst.root)
 # print(bst.delete(150))
