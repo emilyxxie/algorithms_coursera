@@ -69,31 +69,36 @@ class BinarySearchTree(object):
     self.root = self.__hibbard_delete(key, self.root)
 
   def __hibbard_delete(self, key, node):
-    # if it hits this case, it means the node was never found
-    # this never actually gets returned up the hibbard delete
+    # if the delete reaches a node with a value of None, it means the node was never found
+    # we return None nevertheless since we are recursing
+    # and want to keep this child as is for the parent who will receive this on return
     if node == None:
       return None
     if key < node.key:
-      self.left = self.__hibbard_delete(key, node.left)
+      node.left = self.__hibbard_delete(key, node.left)
     elif key > node.key:
-      self.right = self.__hibbard_delete(key, node.right)
+      node.right = self.__hibbard_delete(key, node.right)
     else: # key == node.key
+      if not node.left and not node.right:
+        return None
       if node.left == None: return node.right
       if node.right == None: return node.left
       # by now, if the node has passed the above checks
       # it will have both a left and right child.
       # so, perform the hibbard delete, which is to replace the node
       # with the minumum of the right child -> the next largest
-      next_largest = self.delete_min(node)
-      node.val = next_largest.val
-      node.key = next_largest.key
-      return node
+      next_largest = self.__delete_min(node.right)
+      left = node.left
+      node = next_largest
+      node.left = left
+    return node
 
-  def delete_min(self, node):
+  def __delete_min(self, node):
     while node.left:
       parent = node
       node = node.left
-    parent.left = None
+    if 'parent' in locals():
+      parent.left = node.right
     return node
 
   def search(self, val):
@@ -160,13 +165,19 @@ class BinarySearchTree(object):
 
 bst = BinarySearchTree()
 
-bst.insert(6, "six")
-bst.insert(8, "eight")
-bst.insert(7, "seven")
-bst.insert(3, "three")
-bst.insert(2, "two")
-bst.insert(4, "four")
 bst.insert(5, "five")
+bst.insert(8, "eight")
+bst.insert(9, "nine")
+bst.insert(6, "six")
+bst.insert(7, "seven")
+bst.insert(10, "ten")
+bst.delete(8)
+# bst.delete(8)
+# bst.insert(3, "three")
+# bst.insert(2, "two")
+# bst.insert(4, "four")
+# bst.insert(5, "five")
+
 bst.display(bst.root)
-print(bst.delete(150))
+# print(bst.delete(150))
 
