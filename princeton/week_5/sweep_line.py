@@ -155,13 +155,15 @@ class BinarySearchTree(object):
       # of the right child -> the next largest
       next_largest = self.__hibbard_delete_min(node.right)
       left = node.left
-      # to avoid linking up right node to itself
-      # TODO: make more elegant
-      right = None if next_largest == node.right else node.right
+      if next_largest == node.right:
+        right = next_largest.right
+      else:
+        right = node.right
       node = next_largest
       node.left = left
       node.right = right
     return node
+
 
   def __hibbard_delete_min(self, node):
     while node.left:
@@ -173,28 +175,18 @@ class BinarySearchTree(object):
 
 bst = BinarySearchTree()
 
-# bst.insert(5, "five")
-# bst.insert(8, "eight")
-# bst.insert(4, "four")
-# bst.delete(5)
-# bst.display(bst.root)
-bst.insert(9, "nine")
-bst.insert(6, "six")
-bst.insert(11, "eleven")
-bst.insert(9, "nine")
-bst.insert(10, "ten")
-bst.insert(13, "thirteen")
-bst.insert(12, "twelve")
-bst.delete(8)
-bst.insert(7, "seven")
-bst.insert(10, "ten")
-bst.delete(8)
-bst.delete(8)
 bst.insert(3, "three")
-bst.insert(2, "two")
-bst.insert(4, "four")
-bst.insert(5, "five")
+bst.insert(1, "one")
+bst.insert(9, "nine")
+bst.insert(7, "seven")
+bst.insert(11, "eleven")
+bst.insert(8, "eight")
+bst.insert(10, "ten")
+bst.delete(9)
 
 bst.display(bst.root)
-# print(bst.delete(150))
+
+
+
+
 
