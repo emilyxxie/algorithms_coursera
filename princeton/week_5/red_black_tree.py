@@ -129,7 +129,6 @@ class RedBlackTree(object):
     if node.right:
       node.right.color = not node.right.color
 
-
 rbt = RedBlackTree()
 rbt.insert(3, "three")
 rbt.insert(2, "two")

@@ -18,17 +18,6 @@ Any point that is within that range will intersect.
 Using a binary search tree to implement a symbol table
 BFS tends to take log N time. However, worst case scenario takes linear time.
 
-
-
-1) implement size
-2) no parents
-3) Ceiling
-4) floor
-5) rank
-6) height
-
-
-TODO: This is a pretty ugly BFS. I should redo this soon.
 TODO: maybe implement this visually in p5.js (!!! so fun)
 
 '''
@@ -54,10 +43,6 @@ class BinarySearchTree(object):
   # public api
   #---------------------------------
 
-  #TODO:
-  # 1) fix hibbard delete
-  # 2) test the root deletion case. should be OK, but just in case
-
   def insert(self, key, val):
     if not self.root.key:
       self.root = self.Node(key, val)
@@ -67,12 +52,9 @@ class BinarySearchTree(object):
 
   def delete(self, key):
     node = self.root
-    # hibbard deletion recursion returns the deleted node itself
-    # maybe do a check --- if it returns None, then don't set it to root.
-    # if it returns a node via hibbard, then set it to root
     self.root = self.__hibbard_delete(key, self.root)
 
-  def search(self, val):
+  def select(self, val):
     node = self.head
     while node:
       if val < node.val:
@@ -152,7 +134,7 @@ class BinarySearchTree(object):
       # by now, if the node has passed the above checks
       # it will have both a left and right child.
       # if so, replace the node with the minumum
-      # of the right child -> the next largest
+      # of the right child, a.k.a the next largest
       next_largest = self.__hibbard_delete_min(node.right)
       left = node.left
       if next_largest == node.right:
@@ -164,7 +146,6 @@ class BinarySearchTree(object):
       node.right = right
     return node
 
-
   def __hibbard_delete_min(self, node):
     while node.left:
       parent = node
@@ -173,20 +154,22 @@ class BinarySearchTree(object):
       parent.left = node.right
     return node
 
-bst = BinarySearchTree()
-
-bst.insert(3, "three")
-bst.insert(1, "one")
-bst.insert(9, "nine")
-bst.insert(7, "seven")
-bst.insert(11, "eleven")
-bst.insert(8, "eight")
-bst.insert(10, "ten")
-bst.delete(9)
-
-bst.display(bst.root)
-
+lines = [
+  [[1,6], [4,6]],
+  [[3,3], [5,3]],
+  [[1,1], [3,1]],
+  [[4,5], [6,5]],
+  [[3,7], [3,5]]
+]
+def find_intersections(lines):
+  lines.sort(key = lambda x: x[0][0])
+  for line in lines:
+    print(line)
 
 
+  current_lines = BinarySearchTree()
+
+
+find_intersections(lines)
 
 
