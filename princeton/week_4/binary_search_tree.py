@@ -1,80 +1,37 @@
-'''
-
-Using a binary search tree to implement a symbol table
-BFS tends to take log N time. However, worst case scenario takes linear time.
-TODO: This is a pretty ugly BFS. I should redo this soon.
-
-
-'''
-
-import sys
 
 class BinarySearchTree(object):
 
-  def __init__(self, val = None):
-    self.root = Node(val)
+  #---------------------------------
 
-  def insert(self, val):
-    if self.root.val == None:
-      self.root.val = val
+  class Node(object):
+
+    def __init__(self, key, val):
+      self.key   = key
+      self.val   = val
+      self.left  = None
+      self.right = None
+
+  #---------------------------------
+
+  def __init__(self, key = None, val = None):
+    self.root = self.Node(key, val)
+
+  #---------------------------------
+  # public api
+  #---------------------------------
+
+  def insert(self, key, val):
+    if not self.root.key:
+      self.root = self.Node(key, val)
+      return self.root
     else:
-      self.__insert(val, self.root)
+      self.root = self.__insert(key, val, self.root)
 
-  def __insert(self, val, node):
-    if val < node.val:
-      if node.left:
-        self.__insert(val, node.left)
-      else:
-        node.left = Node(val)
-        node.left.parent = node
-    else:
-      if node.right:
-        self.__insert(val, node.right)
-      else:
-        node.right = Node(val)
-        node.right.parent = node
+  def delete(self, key):
+    node = self.root
+    self.root = self.__hibbard_delete(key, self.root)
 
-  def delete(self, val, node):
-    if val < node.val:
-      if node.left:
-        self.delete(val, node.left)
-      else:
-        return
-    elif val > node.val:
-      if node.right:
-        self.delete(val, node.right)
-      else:
-        return
-    else:
-      self.__delete_and_handle_successors(node)
-
-  def __delete_and_handle_successors(self, node):
-    if node.left and node.right:
-      # not worrying about balancing
-      # so, just find max of left node and replace it
-      val = self.find_max(node.left).val
-      node.val = val
-    elif node.left or node.right:
-      if node.left:
-        node.parent.left = node.left
-        node.left.parent = node.parent
-        node = node.left
-        if node == self.root:
-          self.root = node
-      else:
-        node.parent.right = node.right
-        node.right.parent = node.parent
-        node = node.right
-        if node == self.root:
-          self.root = node
-    else:
-      if node.parent.left == node:
-        node.parent.left = None
-      elif node.parent.right == node:
-        node.parent.right = None
-      node = None
-
-  def search(self, val):
+  def select(self, val):
     node = self.head
     while node:
       if val < node.val:
@@ -84,16 +41,16 @@ class BinarySearchTree(object):
       else:
         return node
 
-  def print_nodes(self, node):
+  def display(self, node):
     if node == None:
       return
-    print(node.val)
+    print(node.key)
     if node.left:
-      print("%d Left: " % (node.val)),
-      self.print_nodes(node.left)
+      print("%d Left: " % (node.key)),
+      self.display(node.left)
     if node.right:
-      print("%d Right: " % (node.val)),
-      self.print_nodes(node.right)
+      print("%d Right: " % (node.key)),
+      self.display(node.right)
 
   def find_max(self, node):
     while node.right:
@@ -105,7 +62,6 @@ class BinarySearchTree(object):
       node = node.left
     return node
 
-  # BFS lends itself to a while loop
   def bfs(self):
     queue = [self.root]
     while queue:
@@ -116,7 +72,6 @@ class BinarySearchTree(object):
       if node.right:
         queue.append(node.right)
 
-  # whereas recursion is particularly appliable to DFS
   def dfs(self, node):
     print(node.val)
     if node.left:
@@ -124,23 +79,68 @@ class BinarySearchTree(object):
     if node.right:
       self.dfs(node.right)
 
+  #---------------------------------
+  # private helpers
+  #---------------------------------
 
-class Node(object):
+  def __insert(self, key, val, node):
+    if node == None: return self.Node(key, val)
+    if key < node.key:
+      node.left = self.__insert(key, val, node.left)
+    elif key > node.key:
+      node.right = self.__insert(key, val, node.right)
+    else: # key == node.key
+      node.val = val
+    return node
 
-  def __init__(self, val):
-    self.val = val
-    self.left = None
-    self.right = None
-    self.parent = None
+  def __hibbard_delete(self, key, node):
+    # if the delete reaches a node with a value of None, it means the node was never found
+    # we return None nevertheless since we are recursing
+    # and want to keep this child as is for the parent who will receive this on return
+    if node == None:
+      return None
+    if key < node.key:
+      node.left = self.__hibbard_delete(key, node.left)
+    elif key > node.key:
+      node.right = self.__hibbard_delete(key, node.right)
+    else: # key == node.key
+      if not node.left and not node.right:
+        return None
+      if node.left == None: return node.right
+      if node.right == None: return node.left
+      # by now, if the node has passed the above checks
+      # it will have both a left and right child.
+      # if so, replace the node with the minumum
+      # of the right child, a.k.a the next largest
+      next_largest = self.__hibbard_delete_min(node.right)
+      left = node.left
+      if next_largest == node.right:
+        right = next_largest.right
+      else:
+        right = node.right
+      node = next_largest
+      node.left = left
+      node.right = right
+    return node
+
+  def __hibbard_delete_min(self, node):
+    while node.left:
+      parent = node
+      node = node.left
+    if 'parent' in locals():
+      parent.left = node.right
+    return node
 
 bst = BinarySearchTree()
 
-bst.insert(6)
-bst.insert(8)
-bst.insert(7)
-bst.insert(3)
-bst.insert(2)
-bst.insert(4)
-bst.insert(5)
-bst.dfs(bst.root)
+bst.insert(3, "three")
+bst.insert(1, "one")
+bst.insert(9, "nine")
+bst.insert(7, "seven")
+bst.insert(11, "eleven")
+bst.insert(8, "eight")
+bst.insert(10, "ten")
+bst.delete(9)
+
+bst.display(bst.root)
 

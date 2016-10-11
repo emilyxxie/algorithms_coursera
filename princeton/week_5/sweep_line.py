@@ -1,3 +1,4 @@
+import sys
 '''
 
 Sweep-line algorithm.
@@ -154,22 +155,51 @@ class BinarySearchTree(object):
       parent.left = node.right
     return node
 
+# horizontal_lines = [
+#   [(1,1), (3,1)],
+#   [(2,3), (6,3)],
+#   [(4,5), (8,5)],
+#   [(8,10), (10,10)],
+# ]
+
+# vertical_lines = [
+#   [(7,2), (7,6)],
+#   [(5,2), (5,6)],
+# ]
+
 lines = [
-  [[1,6], [4,6]],
-  [[3,3], [5,3]],
-  [[1,1], [3,1]],
-  [[4,5], [6,5]],
-  [[3,7], [3,5]]
+  [(1,1), (3,1)],
+  [(2,3), (6,3)],
+  [(4,5), (8,5)],
+  [(8,10), (10,10)],
 ]
-def find_intersections(lines):
-  lines.sort(key = lambda x: x[0][0])
-  for line in lines:
-    print(line)
 
+# INCOMPLETE: TODO -> I SHOULD FIND FORMAT OF THE INPUT
 
-  current_lines = BinarySearchTree()
+# given a de-duped set of lines, where every x and y coordinate are distinct
+# def find_intersections(horizontal, vertical):
+#   bst = BinarySearchTree()
+#   horizontal = [coordinate for line in horizontal for coordinate in line]
+#   horizontal.sort(key = lambda x: x[0])
+#   print(horizontal)
+#   # line.sort(key = lambda x: x[0])
 
+#   for i, point in enumerate(horizontal):
+#     x = point[0]
+#     v = vertical[0][0]
+#     # todo -> edge case of when it hits the end
+#     if len(vertical > 0) and# we reach the end, and there's still something in vertical, immediately comapre
 
-find_intersections(lines)
+#     v >= x and v <= horizontal[i - 1][0]:
+#       bst.range(vertical[0][1], vertical[1][1])
+#     # if the item is already in the BST, then delete it if the y is the same
+#     if bst.select(y):
+#       bst.delete(y)
+#     else:
+#       bst.insert(y)
+#     prevX = x
+
+#find_intersections(horizontal_lines, vertical_lines)
+
 
 
