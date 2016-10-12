@@ -1,6 +1,6 @@
 '''
 
-As an alternative way to implement collision detection.
+An alternative way to implement collision detection.
 
 '''
 
