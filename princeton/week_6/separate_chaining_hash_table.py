@@ -4,8 +4,6 @@ An alternative way to implement collision detection.
 
 '''
 
-
-
 class SeparateChainingHashTable(object):
 
   class Node(object):
