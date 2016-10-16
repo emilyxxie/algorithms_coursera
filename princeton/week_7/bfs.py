@@ -1,8 +1,11 @@
 '''
+
 BFS searches via breadth first, using a queue as an auxillary data structure.
 This is in comparison to DFS, which lends itself to recursion.
 
-BFS happens to give us the shortest path.
+BFS happens to give us the shortest path, as by using queue, we are
+processing items in first-in-first out order. The first time we get to the vertex
+is always the shortest path to the vertex.
 
 '''
 
@@ -16,20 +19,16 @@ class BFS(object):
     self.visited = {}
 
   def bfs(self, key):
-    queue = []
-    queue.append([key, None])
+    queue = [key]
+    self.visited[key] = None
     while queue:
       print(queue)
-      pair = queue.pop(0)
-      key  = pair[0]
-      prev = pair[1]
-      self.visited[key] = prev
+      key = queue.pop(0)
       vertex = self.graph.get_vertex(key)
       for connection in vertex.get_connections():
-        if connection in self.visited or connection in [x[0] for x in queue]:
-          continue
-        else:
-          queue.append([connection, key])
+        if connection not in self.visited:
+          queue.append(connection)
+          self.visited[connection] = key
 
   def shortest_path(self, target):
     if target in self.visited:
