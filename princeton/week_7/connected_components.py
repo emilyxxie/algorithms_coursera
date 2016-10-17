@@ -1,20 +1,13 @@
 '''
-Connectivity queries:
 
-  Goal is to determineefinition -> vertices are connected if there is a path between them.
+Connectivity queries: Exercise to determine of vertices are connected as a component.
+Vertices are considered part of the same component if there is a path between them.
+Pre-process graph using DFS; any connectivity queries from there on out will be executed in
+constant time.
 
-  Goal: pre-process graph to answer queries in the form of is v connected to w?
-  In constant-time.
-
-  We'll use a DFS approach to implement.
-
-  The algorithm is based on teh notion that connection is an equivalence relation.
-  Every node is connected to itself.
-  If v is connected to w, then w is connected to v.
-
-  If v is connected to w and w is connected to x, then v is connected to x
-
-  This computation should be able  to be done in linear time.
+Algorithm is based on the notion that connection is an equivalence relation; if
+v is connected to w, then w is connected to v. If v is connected to w, which is connected to x,
+then v is connected to x.
 
 '''
 
