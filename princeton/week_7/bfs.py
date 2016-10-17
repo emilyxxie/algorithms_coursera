@@ -3,12 +3,11 @@
 BFS searches via breadth first, using a queue as an auxillary data structure.
 This is in comparison to DFS, which lends itself to recursion.
 
-BFS happens to give us the shortest path, as by using queue, we are
+BFS happens to give us the shortest path, as by using a queue, we are
 processing items in first-in-first out order. The first time we get to the vertex
 is always the shortest path to the vertex.
 
 '''
-
 
 from graph import Graph, Vertex
 
