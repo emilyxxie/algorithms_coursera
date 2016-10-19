@@ -41,30 +41,6 @@ class ConnectedComponents(object):
     return [x for x, y in self.visited.items() if y == cc_val]
 
 
-graph = Graph()
-
-for i in range(1, 17):
-  graph.add_vertex(i, str(i) * 3)
-
-graph.add_edge(1, 2)
-graph.add_edge(1, 4)
-graph.add_edge(1, 3)
-graph.add_edge(2, 7)
-graph.add_edge(4, 5)
-graph.add_edge(3, 10)
-graph.add_edge(7, 8)
-graph.add_edge(7, 6)
-graph.add_edge(6, 9)
-graph.add_edge(4, 7)
-graph.add_edge(11, 13)
-graph.add_edge(11, 14)
-graph.add_edge(15, 16)
-graph.display()
-
-cc = ConnectedComponents(graph)
-cc.find_connected_components()
-cc.get_components(2)
-cc.is_connected(2, 11)
 
 
 
