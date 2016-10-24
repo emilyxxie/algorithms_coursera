@@ -1,34 +1,28 @@
 # algorithms_coursera
-Learning algorithms via some coursera courses, namely Sedgewick's course at Princeton, and combined UCSD comprehensive class
+Learning algorithms via some coursera courses, namely Sedgewick's Intro to Algorithms I & II classes at Princeton.
 
-Following along to lectures & coding out answers in Python.
+Answers coded out in Python.
 
 Some topics covered:
 
-1) simple greedy algorithms
+- quick find / quick union
 
-2) quick find / quick union
+- binary search
 
-3) binary search
+- stacks
 
-4) stacks
+- queues
 
-5) queues
+- quick sort / quick select
 
-6) quick sort / quick select
+- heaps / heap sort / priority queues
 
-7) heaps / heap sort / priority queues
+- binary search trees
 
-7) binary search trees
+- 2-3 trees
 
-8) 2-3 trees
+- left-leaning red black trees
 
-9) left-leaning red black trees
+- hashing
 
-10) hashing
-
-11) graphs
-
-12) dfs
-
-13) bfs
+- graphs / dfs / bfs
