@@ -19,7 +19,7 @@ DDOS a website doing this.)
 '''
 
 
-class Graph(object):
+class DirectedGraph(object):
   def __init__(self):
     self.numVertices = 0
     self.vertices = {}
@@ -72,19 +72,7 @@ class Vertex(object):
     del self.connections[key]
 
 
-graph = Graph()
-
-for i in range(1, 7):
-  graph.add_vertex(i, str(i) * 3)
-
-graph.add_edge(1, 2)
-graph.add_edge(1, 4)
-graph.add_edge(1, 3)
-graph.add_edge(3, 6)
-graph.add_edge(6, 3)
-graph.add_edge(5, 3)
-
-graph.display()
+# z
 
 
 
