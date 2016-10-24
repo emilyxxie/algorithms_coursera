@@ -84,11 +84,19 @@ Do not use an edge to go to a vertex unless anpther edge is available.
 
 '''
 
-for i in range(1, 5):
+for i in range(1, 7):
   graph.add_vertex(i, str(i) * 3)
 
+# has path, complicated:
+# graph.add_edge(1, 2)
+# graph.add_edge(2, 3)
+# graph.add_edge(2, 4)
+# graph.add_edge(3, 5)
+# graph.add_edge(4, 5)
+# graph.add_edge(5, 2)
+# graph.add_edge(5, 6)
 
-# has path
+# # has path
 # graph.add_edge(1, 2)
 # graph.add_edge(1, 4)
 # graph.add_edge(1, 3)
@@ -101,7 +109,10 @@ graph.add_edge(2,3)
 graph.add_edge(3,4)
 graph.add_edge(4,1)
 
-# graph.display()
+
+graph.display()
+
+
 
 def find_euler_tour(graph):
   validation = validate_euler_tour(graph)
@@ -111,53 +122,59 @@ def find_euler_tour(graph):
 
   start = validation[0]
   end   = validation[1]
+  tour  = []
 
-  edges_visited = {}
+  edges_visited = {
+    key: [] for key in graph.vertices.keys()
+  }
 
   def dfs(key, prev):
-    # first case, don't add anything into array
-    # I don't like this.
-    if not prev:
-      edges_visited[key] = []
-    elif edges_visited.has_key(key):
+    tour.append(key)
+    if prev:
+      edges_visited[prev].append(key)
       edges_visited[key].append(prev)
-    else:
-      edges_visited[key] = [prev]
 
     vertex = graph.vertices[key]
     connections = vertex.get_connections()
     for c in connections:
-      # don't do this check if we're on the final item
-      # edges may not always have been visited
       c_connections = graph.vertices[c].get_connections()
-      print(c_connections)
-      print(edges_visited)
-      if c in edges_visited and len(c_connections) - len(edges_visited[c]) > 2:
+      if len(c_connections) - len(edges_visited[c]) >= 1 and key not in edges_visited[c]:
         dfs(c, key)
+
+  dfs(start, None)
+  if len(edges_visited) != len(graph.vertices):
+    return False
+  return tour
+
+
+'''
+
+  # don't do this check if we're on the final item
+  # edges may not always have been visited
 
   # after the DFS, if there are any unvisited nodes left,
   # this means that there are unvisited vertices
   # this means not all nodes are connectedd
   # this means that this is not a euler tour
   # I want to roll this check into validate_euler_tour() function
-  dfs(start, None)
-  if len(edges_visited) != len(graph.vertices):
-    return
+
+'''
 
 
 # validates if a graph is a euler tour or not
-# if yes, return the start and end nodes
+# checks the criteria that there are only either 0 or 2 vertices
+# with odd connections
+# if so, return the start and end nodes
 # in the case where there are no odds
-# the start and end nodes will be any node
-# as long as it is itself
-# so, simply choose the graph vertex
+# the start and end nodes will be any same node
+# to indicate that the graph will start and end at the same place
 def validate_euler_tour(graph):
   odd = []
   for key in graph.vertices:
     vertex = graph.get_vertex(key)
     connections = vertex.get_connections()
     if len(connections) % 2 != 0:
-      odd.append(vertex)
+      odd.append(key)
       if len(odd) > 2:
         return False
   if len(odd) == 1: return False
@@ -187,7 +204,26 @@ Other algorithms to note:
 
 
 
-# TODO:
-# learn backtracking
-# learn dynamic programming
+  # stores node, and the connections that it already has visited
+  # first find if it is a euler problem
+  # find the starting and end vertex
+  # cycle through the graph, get each vertex
+  # check the connections.
+  # use DFS -> only go to the next connection if you look it up
+  # in the hash, and see that it has avialable connections to leave
+  # unless it is the final one
+
+  # for key in graph.vertices(graph):
+    # while cycling through,
+    # if there's
+    # if there's an additional odd,
+    # we need to make sure that the odd is the final one
+    # if there's an odd node that we find
+    # we wipe edges visited
+    # and start the cycle anew with the odd vertex
+    #
+
+
+
+
 
