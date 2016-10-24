@@ -21,7 +21,7 @@ Determine whether or not a graph is a bipartite.
 
 '''
 
-Detect whether or not a simple graph contains a cycle.
+Detect whether or not a simple non-directed graph contains a cycle.
 
 '''
 

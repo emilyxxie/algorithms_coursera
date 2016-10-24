@@ -72,7 +72,5 @@ class Vertex(object):
     del self.connections[key]
 
 
-# z
-
 
 
