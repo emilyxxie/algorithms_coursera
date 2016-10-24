@@ -68,23 +68,5 @@ class Vertex(object):
   def remove_connection(self, key):
     del self.connections[key]
 
-# graph = Graph()
-
-# for i in range(0, 11):
-#   graph.add_vertex(i, str(i) * 3)
-
-# graph.add_edge(1, 2)
-# graph.add_edge(1, 4)
-# graph.add_edge(1, 3)
-# graph.add_edge(2, 7)
-# graph.add_edge(4, 5)
-# graph.add_edge(3, 10)
-# graph.add_edge(7, 8)
-# graph.add_edge(7, 6)
-# graph.add_edge(6, 9)
-
-# graph.display()
-
-
 
 
