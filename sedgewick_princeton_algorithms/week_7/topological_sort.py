@@ -19,61 +19,56 @@ The classes and pre-requisite example can also give insight as to why you must h
 A cyclic graph would mean that something requires itself. e.g. HAA 51 requires HAA 51
 before you can take it. This is simply illogical / would break.
 
-Typically, topological sort can be solved using a DFS and keeping reverse
-post-order track of processed items. Post-order can be defined as the order
-in which something is completed. For toplogical sort, we can create a stack
-to track post-order, and then reverse it at the end.
+Typically, topological sort can be solved using a DFS and keeping post-order
+track of processed items. Post-order can be defined as the order
+in which something is completed.
 
 '''
 
 from directed_graph import DirectedGraph
+import sys
 
 class TopologicalSort(object):
-  def __init__(self, dg):
-    self.digraph = dg
-    self.post_order = []
-    self.visited = []
 
-  # detects cycles and sorts topologically
+  def __init__(self, digraph):
+    '''
+    stack holds all vertices within current recursive call,
+    used to detect cycles. Visited contain all vertices
+    across all recursive calls.
+    '''
+    self.stack = []
+    self.visited = []
+    self.digraph = digraph
+    self.post_order = []
+
+
   def topological_sort(self):
+    '''
+    acounts for cycles and sorts topologically
+    '''
     for key in self.digraph.vertices:
       if key not in self.visited:
         self.__dfs(key)
+    return self.post_order
 
-    print(self.visited)
-    # print(self.post_order)
-    # return self.post_order.reverse()
+
+  #---------------------------------
+  # private helpers
+  #---------------------------------
 
   def __dfs(self, key, prev = None):
-    self.visited.append(key)
+    self.stack.append(key)
     vertex = self.digraph.get_vertex(key)
-    # print(key)
-    # print(self.visited)
     for connection in vertex.get_connections():
-      if connection not in self.visited:
+      if connection not in self.stack and connection not in self.visited and connection != prev:
         self.__dfs(connection, key)
+      self.__check_cycle(connection)
+    self.visited += self.stack
+    self.stack = []
     self.post_order.append(key)
 
+  def __check_cycle(self, connection):
+    if connection in self.stack:
+      sys.exit("Cycle detected: %s" % ("".join(str(self.stack))))
 
-dg = DirectedGraph()
-
-for i in range(0, 7):
-  dg.add_vertex(i, "Class %d" % (i))
-
-dg.add_edge(0, 1)
-dg.add_edge(0, 6)
-dg.add_edge(1, 4)
-dg.add_edge(0, 5)
-dg.add_edge(5, 2)
-dg.add_edge(3, 5)
-dg.add_edge(3, 4)
-dg.add_edge(3, 6)
-dg.add_edge(6, 4)
-
-print(dg)
-
-print(dg.display())
-
-ts = TopologicalSort(dg)
-ts.topological_sort()
 

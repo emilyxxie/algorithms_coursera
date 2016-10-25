@@ -158,3 +158,31 @@ graph.display()
 
 
 
+#### TOPOLOGICAL SORT ####
+
+dg = DirectedGraph()
+
+for i in range(0, 7):
+  dg.add_vertex(i, "Class %d" % (i))
+
+dg.add_edge(0, 1)
+dg.add_edge(0, 5)
+dg.add_edge(0, 2)
+dg.add_edge(1, 4)
+dg.add_edge(5, 2)
+dg.add_edge(3, 5)
+dg.add_edge(3, 4)
+dg.add_edge(3, 6)
+dg.add_edge(6, 4)
+dg.add_edge(6, 0)
+
+# add edge to make it cycle. This should break it
+dg.add_edge(4, 6)
+
+
+print(dg.display())
+
+ts = TopologicalSort(dg)
+print(ts.topological_sort())
+
+
