@@ -13,6 +13,8 @@ Some topics covered:
 
 - queues
 
+- merge sort
+
 - quick sort / quick select
 
 - heaps / heap sort / priority queues
@@ -23,6 +25,8 @@ Some topics covered:
 
 - left-leaning red black trees
 
-- hashing
+- hashing / linear probing / separate chaining
 
-- graphs / dfs / bfs
+- undirected graphs / dfs / bfs
+
+- directed graphs / topological sort / DAGS
