@@ -186,3 +186,30 @@ ts = TopologicalSort(dg)
 print(ts.topological_sort())
 
 
+##### KOSARAJU'S ALGORITHM #####
+
+dg = DirectedGraph()
+alpha = string.ascii_lowercase[:11]
+
+for i, a in enumerate(alpha):
+  dg.add_vertex(i + 1, a)
+
+dg.add_edge(2, 3)
+dg.add_edge(3, 1)
+dg.add_edge(1, 2)
+dg.add_edge(2, 4)
+dg.add_edge(4, 5)
+dg.add_edge(5, 6)
+dg.add_edge(6, 4)
+dg.add_edge(7, 6)
+dg.add_edge(7, 8)
+dg.add_edge(8, 9)
+dg.add_edge(9, 10)
+dg.add_edge(10, 7)
+dg.add_edge(10, 11)
+
+dg.display()
+
+sc = KosarajuStrongComponents(dg)
+print(sc.find_strong_components())
+

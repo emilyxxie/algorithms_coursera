@@ -50,7 +50,7 @@ class DirectedGraph(object):
 
   def display(self):
     for key, vertex in self.vertices.items():
-      print("%i => %s") % (key, vertex.get_connections())
+      print("%i: %s => %s") % (key, vertex.val, vertex.get_connections())
 
   def reverse(self):
     pass

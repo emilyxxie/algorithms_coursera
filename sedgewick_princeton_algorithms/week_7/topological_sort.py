@@ -33,7 +33,7 @@ class TopologicalSort(object):
   def __init__(self, digraph):
     '''
     stack holds all vertices within current recursive call,
-    used to detect cycles. Visited contain all vertices
+    used to detect cycles. Visited contains all vertices
     across all recursive calls.
     '''
     self.stack = []
