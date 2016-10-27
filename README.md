@@ -27,6 +27,6 @@ Some topics covered:
 
 - hashing / linear probing / separate chaining
 
-- undirected graphs / dfs / bfs
+- undirected graphs / dfs / bfs / connected components
 
-- directed graphs / topological sort / DAGS
+- directed graphs / topological sort / DAGS / Kosaraju's algorithm
