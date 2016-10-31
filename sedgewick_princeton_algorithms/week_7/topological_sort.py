@@ -1,5 +1,7 @@
 '''
 
+#TODO: check why just post order is working.
+
 Topological sorting is a widely used digraph processing application that
 creates a linear ordering of vertices based on what must be done first.
 Vertices represent tasks, while edges represent precedence constraints.
@@ -19,7 +21,7 @@ The classes and pre-requisite example can also give insight as to why you must h
 A cyclic graph would mean that something requires itself. e.g. HAA 51 requires HAA 51
 before you can take it. This is simply illogical / would break.
 
-Typically, topological sort can be solved using a DFS and keeping post-order
+Typically, topological sort can be solved using a DFS and keeping reverse post-order
 track of processed items. Post-order can be defined as the order
 in which something is completed.
 

@@ -1,0 +1,28 @@
+examples.txt
+
+ewg = EdgeWeightedGraph()
+alpha = string.ascii_lowercase[:8]
+
+for i, char in enumerate(alpha):
+  ewg.add_node(i, char)
+
+ewg.add_edge(Edge(1, 5, 0.32))
+ewg.add_edge(Edge(4, 5, 0.35))
+ewg.add_edge(Edge(1, 2, 0.36))
+ewg.add_edge(Edge(4, 7, 0.37))
+ewg.add_edge(Edge(0, 4, 0.38))
+ewg.add_edge(Edge(6, 2, 0.40))
+ewg.add_edge(Edge(3, 6, 0.52))
+ewg.add_edge(Edge(6, 0, 0.58))
+ewg.add_edge(Edge(6, 4, 0.93))
+ewg.add_edge(Edge(0, 7, 0.16))
+ewg.add_edge(Edge(2, 3, 0.17))
+ewg.add_edge(Edge(1, 7, 0.19))
+ewg.add_edge(Edge(0, 2, 0.26))
+ewg.add_edge(Edge(5, 7, 0.28))
+ewg.add_edge(Edge(1, 3, 0.29))
+ewg.add_edge(Edge(2, 7, 0.34))
+
+pmst = PrimsMST(ewg)
+pmst.find_MST()
+pmst.display_MST()

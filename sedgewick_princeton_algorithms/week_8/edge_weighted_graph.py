@@ -82,17 +82,3 @@ class Edge(object):
       return 1
     else:
       return 0
-
-
-ewg = EdgeWeightedGraph()
-alpha = string.ascii_lowercase[:11]
-
-for i, char in enumerate(alpha):
-  ewg.add_node(i, char)
-
-ewg.add_edge(Edge(1, 2, 1.25))
-ewg.add_edge(Edge(1,4, 3))
-ewg.display()
-
-
-

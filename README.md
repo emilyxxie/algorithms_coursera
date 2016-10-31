@@ -30,3 +30,5 @@ Some topics covered:
 - undirected graphs / dfs / bfs / connected components
 
 - directed graphs / topological sort / DAGS / Kosaraju's algorithm
+
+- minimim spanning trees / Prim's algorithm / Kruskal's
