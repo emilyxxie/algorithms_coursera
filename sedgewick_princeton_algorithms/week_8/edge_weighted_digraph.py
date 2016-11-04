@@ -49,14 +49,14 @@ class EdgeWeightedDigraph:
     end = edge.end
     if start not in self.nodes:
       self.nodes[start] = set()
-    else:
-      print(self.nodes[start])
       self.nodes[start].add(edge)
-      print(self.nodes[start])
+    else:
+      self.nodes[start].add(edge)
 
     # if end does not exist, add it to the graph
     if end not in self.nodes:
       self.nodes[end] = set()
+
     self.total_edges += 1
 
   def count_nodes(self):
