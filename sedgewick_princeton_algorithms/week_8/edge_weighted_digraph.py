@@ -83,12 +83,3 @@ class DirectedEdge:
     self.weight = weight
 
 
-ewdg = EdgeWeightedDigraph()
-
-ewdg.add_edge(DirectedEdge(1, 4, 0.5))
-ewdg.add_edge(DirectedEdge(1, 7, 0.28))
-ewdg.add_edge(DirectedEdge(2, 8, 0.1))
-ewdg.add_edge(DirectedEdge(8, 1, 0.2))
-
-ewdg.display()
-
